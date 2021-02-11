@@ -26,6 +26,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 #Webhookからのリクエストをチェックします。
 @app.route("/callback", methods=['POST'])
 def callback():
+  print("callback() : in")
   # リクエストヘッダーから署名検証のための値を取得します。
   signature = request.headers['X-Line-Signature']
  
@@ -55,6 +56,7 @@ def callback():
  
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+  print("handle_message() : in")
   line_bot_api.reply_message(
     event.reply_token,
     TextSendMessage(text=event.message.text)
