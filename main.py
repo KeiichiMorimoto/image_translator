@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, ImageMessage
 )
 import os
  
@@ -32,11 +32,9 @@ def callback():
  
   # リクエストボディを取得します。
   body = request.get_data(as_text=True)
-  app.logger.info("Request body: " + body)
+  print("body:", body)
 
-  #print(body)
-  #print(app.logger.info("Request body: " + body))
-  #print(signature)
+  app.logger.info("Request body: " + body)
 
   # handle webhook body
   # 署名を検証し、問題なければhandleに定義されている関数を呼び出す。
@@ -44,6 +42,7 @@ def callback():
     handler.handle(body, signature)
   # 署名検証で失敗した場合、例外を出す。
   except InvalidSignatureError:
+    print("InvalidSignatureError")
     abort(400)
   # handleの処理を終えればOK
   return 'OK'
@@ -60,18 +59,12 @@ def callback():
  
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-  print("handle_message() : in")
+  print("handle_message:", event)
   line_bot_api.reply_message(
     event.reply_token,
     TextSendMessage(text=event.message.text)
   ) #ここでオウム返しのメッセージを返します。
  
-# ポート番号の設定
-if __name__ == "__main__":
-  #app.run()
-  port = int(os.getenv("PORT", 5000))
-  app.run(host="0.0.0.0", port=port)
-
 ## 3 ##
 ###############################################
 #画像が送信された場合の処理：
@@ -80,7 +73,7 @@ if __name__ == "__main__":
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
-  print("handle_image() : in")
+  print("handle_image:", event)
   message_id = event.message.id
 
   # message_idから画像のバイナリデータを取得
@@ -90,3 +83,10 @@ def handle_image(event):
     # バイナリを1024バイトずつ書き込む
     #for chunk in message_content.iter_content():
       #f.write(chunk)
+
+
+# ポート番号の設定
+if __name__ == "__main__":
+  #app.run()
+  port = int(os.getenv("PORT", 5000))
+  app.run(host="0.0.0.0", port=port)
