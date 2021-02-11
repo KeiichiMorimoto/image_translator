@@ -33,7 +33,11 @@ def callback():
   # リクエストボディを取得します。
   body = request.get_data(as_text=True)
   app.logger.info("Request body: " + body)
- 
+
+  print(body)
+  print(app.logger.info("Request body: " + body))
+  print(signature)
+
   # handle webhook body
   # 署名を検証し、問題なければhandleに定義されている関数を呼び出す。
   try:
