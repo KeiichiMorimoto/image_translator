@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, abort
  
 from linebot import (
@@ -9,7 +11,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage
 )
-import os
+
  
 app = Flask(__name__)
  
@@ -22,8 +24,7 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
  
  
-## 1 ##
-#Webhookからのリクエストをチェックします。
+### Webhookからのリクエストをチェックする ###
 @app.route("/callback", methods=['POST'])
 def callback():
   print("callback() : in")
@@ -47,30 +48,20 @@ def callback():
   # handleの処理を終えればOK
   return 'OK'
  
-## 2 ##
-###############################################
-#LINEのメッセージの取得と返信内容の設定(オウム返し)
-###############################################
- 
-#LINEでMessageEvent（普通のメッセージを送信された場合）が起こった場合に、
-#def以下の関数を実行します。
-#reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。 
-#第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
- 
+### Text受信時 ###
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   print("handle_message:", event)
-  line_bot_api.reply_message(
-    event.reply_token,
-    TextSendMessage(text=event.message.text)
-  ) #ここでオウム返しのメッセージを返します。
- 
-## 3 ##
-###############################################
-#画像が送信された場合の処理：
-#  その画像内の英文を読み取り,日本語訳した文章を返す。
-###############################################
+  text = event.message.text
 
+  messages = [
+        TextSendMessage(text=text),
+        TextSendMessage(text='英文が書いてある画像を送ってみてね'),
+    ]
+  
+  reply_message(event, messages)
+ 
+### 画像受信時 ###
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
   print("handle_image:", event)
@@ -84,9 +75,14 @@ def handle_image(event):
     #for chunk in message_content.iter_content():
       #f.write(chunk)
 
+def reply_message(event, messages):
+    line_bot_api.reply_message(
+        event.reply_token,
+        messages=messages,
+    )
 
 # ポート番号の設定
 if __name__ == "__main__":
-  #app.run()
-  port = int(os.getenv("PORT", 5000))
+  port = os.environ.get('PORT', 3333)
+  #port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
