@@ -34,9 +34,9 @@ def callback():
   body = request.get_data(as_text=True)
   app.logger.info("Request body: " + body)
 
-  print(body)
-  print(app.logger.info("Request body: " + body))
-  print(signature)
+  #print(body)
+  #print(app.logger.info("Request body: " + body))
+  #print(signature)
 
   # handle webhook body
   # 署名を検証し、問題なければhandleに定義されている関数を呼び出す。
@@ -71,3 +71,22 @@ if __name__ == "__main__":
   #app.run()
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
+
+## 3 ##
+###############################################
+#画像が送信された場合の処理：
+#  その画像内の英文を読み取り,日本語訳した文章を返す。
+###############################################
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image(event):
+    print("handle_image() : in")
+  message_id = event.message.id
+
+  # message_idから画像のバイナリデータを取得
+  message_content = line_bot_api.get_message_content(message_id)
+
+  #with open(Path(f"static/images/{message_id}.jpg").absolute(), "wb") as f:
+    # バイナリを1024バイトずつ書き込む
+    #for chunk in message_content.iter_content():
+      #f.write(chunk)
