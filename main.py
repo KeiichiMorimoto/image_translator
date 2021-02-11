@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
-    print("handle_image() : in")
+  print("handle_image() : in")
   message_id = event.message.id
 
   # message_idから画像のバイナリデータを取得
