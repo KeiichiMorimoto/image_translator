@@ -1,4 +1,5 @@
 import os
+from io import BytesIO
 
 from flask import Flask, request, abort
  
@@ -11,6 +12,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage
 )
+
+from image_translator import translate_eng_image_to_ja
 
  
 app = Flask(__name__)
@@ -69,6 +72,12 @@ def handle_image(event):
 
   # message_idから画像のバイナリデータを取得
   message_content = line_bot_api.get_message_content(message_id)
+
+  image = BytesIO(message_content.content)
+
+  resulut = translate_eng_image_to_ja(image)
+
+  print(result)
 
   #with open(Path(f"static/images/{message_id}.jpg").absolute(), "wb") as f:
     # バイナリを1024バイトずつ書き込む
