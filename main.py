@@ -63,17 +63,16 @@ def handle_image(event):
   print("handle_image:", event)
  
   message_id = event.message.id
-  getImageLine(message_id)
+  image_url = getImageLine(message_id)
   #message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
   #image = BytesIO(message_content.content)
-  print(getImageLine)
-  
-  getImageLine(message_id)
+
+  print(image_url)
 
   return
   
   try:
-    image_text = translate_eng_image_to_ja(image_url=getImageLine(message_id))
+    image_text = translate_eng_image_to_ja(image_url=image_url)
     #image_text = translate_eng_image_to_ja(image=image)
     print(image_text)
   
