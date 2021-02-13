@@ -68,21 +68,20 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
   print("handle_image:", event)
+ 
   message_id = event.message.id
-
-  # message_idから画像のバイナリデータを取得
-  message_content = line_bot_api.get_message_content(message_id)
+  message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
 
   image = BytesIO(message_content.content)
 
-  resulut = translate_eng_image_to_ja(image)
-
-  print(result)
-
-  #with open(Path(f"static/images/{message_id}.jpg").absolute(), "wb") as f:
-    # バイナリを1024バイトずつ書き込む
-    #for chunk in message_content.iter_content():
-      #f.write(chunk)
+  try:
+    image_text = translate_eng_image_to_ja(image=image)
+    
+    print(image_text)
+  
+  except Exeption as e:
+    print("[Error]エラーが発生しました")
+  
 
 def reply_message(event, messages):
     line_bot_api.reply_message(
