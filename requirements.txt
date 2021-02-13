@@ -3,3 +3,4 @@ line-bot-sdk==1.18.0
 Pillow==8.1.0
 pyocr==0.8
 googletrans==4.0.0rc1
+opencv-python==4.5.1.48
