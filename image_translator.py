@@ -3,7 +3,7 @@ import requests
 
 KEY1 = os.environ["COMPUTER_VISION_API_KEY1"]
 
-endpoint = 'https://eastasia.api.cognitive.microsoft.com/vision/v1.0/ocr'
+endpoint = 'https://mottyan-solution.cognitiveservices.azure.com/'
 
 def translate_eng_image_to_ja(image_url=None, image=None):
     print("translate_eng_image_to_ja : in")
