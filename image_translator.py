@@ -13,6 +13,8 @@ def translate_eng_image_to_ja(image_url=None, image=None):
 
     params = {'visualFeatures': 'Categories,Description,Color'}
 
+    print("debug-1")
+
     if image_url:
         headers = {
             'Ocp-Apim-Subscription-Key': KEY1,
@@ -37,6 +39,8 @@ def translate_eng_image_to_ja(image_url=None, image=None):
             params=params,
             data=image,
         )
+    
+    print("debug-2")
 
     status = response.status_code
     data = response.json()

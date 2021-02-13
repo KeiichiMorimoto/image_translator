@@ -68,10 +68,10 @@ def handle_image(event):
   message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
 
   image = BytesIO(message_content.content)
+  print(image)
 
   try:
     image_text = translate_eng_image_to_ja(image=image)
-    
     print(image_text)
   
   except Exception as e:
