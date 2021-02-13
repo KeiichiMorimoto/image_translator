@@ -63,13 +63,18 @@ def handle_image(event):
   print("handle_image:", event)
  
   message_id = event.message.id
-  message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
+  getImageLine(message_id)
+  #message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
+  #image = BytesIO(message_content.content)
+  print(getImageLine)
+  
+  getImageLine(message_id)
 
-  image = BytesIO(message_content.content)
-  print(image)
-
+  return
+  
   try:
-    image_text = translate_eng_image_to_ja(image=image)
+    image_text = translate_eng_image_to_ja(image_url=getImageLine(message_id))
+    #image_text = translate_eng_image_to_ja(image=image)
     print(image_text)
   
   except Exception as e:
@@ -86,3 +91,20 @@ def reply_message(event, messages):
 if __name__ == "__main__":
   port = os.environ.get('PORT', 3333)
   app.run(host="0.0.0.0", port=port)
+
+def getImageLine(id):
+
+  line_url = 'https://api.line.me/v2/bot/message/' + id + '/content/'
+
+  # 画像の取得
+  result = requests.get(line_url, headers=header)
+  print(result)
+
+  # 画像の保存
+  im = Image.open(BytesIO(result.content))
+  filename = '/tmp/' + id + '.jpg'
+  print(filename)
+  im.save(filename)
+
+  return filename
+
