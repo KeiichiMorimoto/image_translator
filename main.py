@@ -1,4 +1,4 @@
-import requests, json, os, io, cv2
+import requests, json, os, io
 from io import BytesIO
 
 from flask import Flask, request, abort
