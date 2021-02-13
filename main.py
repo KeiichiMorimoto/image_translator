@@ -19,6 +19,22 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
  
+def getImageLine(id):
+
+  line_url = 'https://api.line.me/v2/bot/message/' + id + '/content/'
+
+  # 画像の取得
+  result = requests.get(line_url, headers=header)
+  print(result)
+
+  # 画像の保存
+  im = Image.open(BytesIO(result.content))
+  filename = '/tmp/' + id + '.jpg'
+  print(filename)
+  im.save(filename)
+
+  return filename
+
  
 ### Webhookからのリクエストをチェックする ###
 @app.route("/callback", methods=['POST'])
@@ -69,16 +85,13 @@ def handle_image(event):
 
   print(image_url)
 
-  return
-  
-  try:
-    image_text = translate_eng_image_to_ja(image_url=image_url)
+  #try:
+    #image_text = translate_eng_image_to_ja(image_url=image_url)
     #image_text = translate_eng_image_to_ja(image=image)
-    print(image_text)
+    #print(image_text)
   
-  except Exception as e:
-    print("[Error]エラーが発生しました")
-  
+  #except Exception as e:
+    #print("[Error]エラーが発生しました")
 
 def reply_message(event, messages):
     line_bot_api.reply_message(
@@ -91,19 +104,5 @@ if __name__ == "__main__":
   port = os.environ.get('PORT', 3333)
   app.run(host="0.0.0.0", port=port)
 
-def getImageLine(id):
 
-  line_url = 'https://api.line.me/v2/bot/message/' + id + '/content/'
-
-  # 画像の取得
-  result = requests.get(line_url, headers=header)
-  print(result)
-
-  # 画像の保存
-  im = Image.open(BytesIO(result.content))
-  filename = '/tmp/' + id + '.jpg'
-  print(filename)
-  im.save(filename)
-
-  return filename
 
