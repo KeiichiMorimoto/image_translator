@@ -5,9 +5,7 @@ from flask import Flask, request, abort
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageMessage
-)
+from linebot.models import (ImageMessage, MessageEvent, TextMessage, TextSendMessage)
 
 from image_translator import translate_eng_image_to_ja
  
