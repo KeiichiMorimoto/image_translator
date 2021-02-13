@@ -2,19 +2,14 @@ import os
 from io import BytesIO
 
 from flask import Flask, request, abort
- 
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
+
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageMessage
 )
 
 from image_translator import translate_eng_image_to_ja
-
  
 app = Flask(__name__)
  
@@ -79,7 +74,7 @@ def handle_image(event):
     
     print(image_text)
   
-  except Exeption as e:
+  except Exception as e:
     print("[Error]エラーが発生しました")
   
 
@@ -92,5 +87,4 @@ def reply_message(event, messages):
 # ポート番号の設定
 if __name__ == "__main__":
   port = os.environ.get('PORT', 3333)
-  #port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)

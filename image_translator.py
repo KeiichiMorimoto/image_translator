@@ -41,6 +41,8 @@ def translate_eng_image_to_ja(image_url=None, image=None):
     status = response.status_code
     data = response.json()
 
+    print(data)
+
     if status != 200:
 
         if data['code'] == 'InvalidImageSize':
