@@ -7,6 +7,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (ImageMessage, MessageEvent, TextMessage, TextSendMessage)
 
+from PIL import Image
 from image_translator import translate_eng_image_to_ja
  
 app = Flask(__name__)
