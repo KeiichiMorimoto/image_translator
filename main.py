@@ -1,6 +1,5 @@
 import requests, json, os, io
 from io import BytesIO
-from StringIO import StringIO
 from flask import Flask, request, abort
 
 from linebot import LineBotApi, WebhookHandler
