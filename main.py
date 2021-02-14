@@ -8,7 +8,8 @@ from linebot.models import (ImageMessage, ImageSendMessage, MessageEvent, TextMe
 
 from PIL import Image
 from image_translator import translate_eng_image_to_ja
- 
+from vision import vision
+
 app = Flask(__name__)
  
 #環境変数取得
@@ -103,7 +104,7 @@ def handle_image(event):
     # )
 
     try:
-      image_text = translate_eng_image_to_ja(image_url=image_url)
+      image_text = vision(image_url=image_url)
       print(image_text)
   
     except Exception as e:
