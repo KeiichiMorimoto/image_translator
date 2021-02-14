@@ -15,6 +15,8 @@ app = Flask(__name__)
 # LINE Developersで設定されているアクセストークンとChannel Secretをを取得し、設定します。
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+
+FQDN = "https://line-image-translator.herokuapp.com/"
  
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
@@ -83,12 +85,23 @@ def handle_message(event):
 def handle_image(event):
   print("handle_image:", event)
  
-  message_id = event.message.id
-  image_url = getImageLine(message_id)
-  #message_content = line_bot_api.get_message_content(message_id)   # message_idから画像のバイナリデータを取得
+  #message_id = event.message.id
+  #image_url = getImageLine(message_id)
+  message_content = line_bot_api.get_message_content(event.message.id)
+
+　with open(“static/” + event.message.id + “.jpg”, “wb”) as f:
+    f.write(message_content.content)
+    line_bot_api.reply_message(
+      event.reply_token,
+      ImageSendMessage(
+        original_content_url=FQDN + “/static/” + event.message.id + “.jpg”,
+        preview_image_url=FQDN + “/static/” + event.message.id + “jpg”
+      )
+    )
+
   #image = BytesIO(message_content.content)
 
-  print(image_url)
+  #print(image_url)
 
   #try:
     #image_text = translate_eng_image_to_ja(image_url=image_url)
