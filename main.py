@@ -34,7 +34,7 @@ def getImageLine(id):
   print(result)
 
   # 画像の保存
-  im = Image.open(StringIO(result.content))
+  im = Image.open(BytesIO(result.content))
   filename = '/tmp/' + id + '.jpg'
   print(filename)
   im.save(filename)
