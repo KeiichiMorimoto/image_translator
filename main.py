@@ -109,6 +109,12 @@ def handle_image(event):
 
       transrated_text = translate_en_to_ja(image_text)
       print(transrated_text)
+
+      messages = [
+        TextSendMessage(text=transrated_text),
+      ]
+
+      reply_message(event, messages)
   
     except Exception as e:
       print("[Error]エラーが発生しました")
