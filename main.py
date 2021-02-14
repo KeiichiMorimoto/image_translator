@@ -91,25 +91,23 @@ def handle_image(event):
   
   with open('static/' + event.message.id + '.jpg', 'wb') as f:
     f.write(message_content.content)
-    line_bot_api.reply_message(
-      event.reply_token,
-      ImageSendMessage(
-        original_content_url = FQDN + '/static/' + event.message.id + '.jpg',
-        preview_image_url = FQDN + '/static/' + event.message.id + 'jpg'
-      )
-    )
 
-  #image = BytesIO(message_content.content)
+    image_url = './static/' + event.message.id + '.jpg'
 
-  #print(image_url)
+    # line_bot_api.reply_message(
+    #   event.reply_token,
+    #   ImageSendMessage(
+    #     original_content_url = FQDN + '/static/' + event.message.id + '.jpg',
+    #     preview_image_url = FQDN + '/static/' + event.message.id + 'jpg'
+    #   )
+    # )
 
-  #try:
-    #image_text = translate_eng_image_to_ja(image_url=image_url)
-    #image_text = translate_eng_image_to_ja(image=image)
-    #print(image_text)
+    try:
+      image_text = translate_eng_image_to_ja(image_url=image_url)
+      print(image_text)
   
-  #except Exception as e:
-    #print("[Error]エラーが発生しました")
+    except Exception as e:
+      print("[Error]エラーが発生しました")
 
 def reply_message(event, messages):
     line_bot_api.reply_message(
