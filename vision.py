@@ -13,7 +13,7 @@ text_recognition_url = endpoint + "vision/v3.1/read/analyze"
 
 headers = {'Ocp-Apim-Subscription-Key': subscription_key, 'Content-Type': 'application/octet-stream'}
 
-def vision(image_url=None):
+def get_text_by_image(image_url=None):
     print("vision : in")
 
     filename = image_url

@@ -7,8 +7,8 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import (ImageMessage, ImageSendMessage, MessageEvent, TextMessage, TextSendMessage)
 
 from PIL import Image
-from image_translator import translate_eng_image_to_ja
-from vision import vision
+from translator import translate_en_to_ja
+from vision import get_text_by_image
 
 app = Flask(__name__)
  
@@ -104,8 +104,11 @@ def handle_image(event):
     # )
 
     try:
-      image_text = vision(image_url=image_url)
+      image_text = get_text_by_image(image_url=image_url)
       print(image_text)
+
+      transrated_text = translate_en_to_ja(image_text)
+      print(transrated_text)
   
     except Exception as e:
       print("[Error]エラーが発生しました")
