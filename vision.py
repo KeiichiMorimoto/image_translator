@@ -41,7 +41,6 @@ def vision(image_url=None):
             poll = False
 
     text = analysis["analyzeResult"]["readResults"][0]["lines"][0]["text"]
-    print(text)
+    #print(text)
 
-
-vision("./static/test.png")
+    return text
